@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clínica Raiz — Psicoterapia e Saúde Emocional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { moss:{DEFAULT:'#33422F',dark:'#212B1E',light:'#5C6E52'}, cream:'#F5F1E7', clay:'#A9764F', ink:'#2A2A24' },
+    fontFamily: { serif:['Fraunces','serif'], sans:['Work Sans','sans-serif'] }
+  }}}
+</script>
+<style>
+  :root{ scroll-behavior:smooth; scroll-padding-top:92px; }
+  body{ background:#F5F1E7; color:#2A2A24; }
+  .fade-up{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .fade-up.in{ opacity:1; transform:translateY(0); }
+  .icon svg{ width:100%; height:100%; }
+  .icon{ transition:transform .3s ease; }
+  .icon:hover{ transform:scale(1.15) rotate(-4deg); }
+  ::selection{ background:#33422F; color:#F5F1E7; }
+  a:focus-visible, button:focus-visible{ outline:2px solid #A9764F; outline-offset:3px; }
+  .ghost-num{ font-family:'Fraunces',serif; font-size:8rem; line-height:1; color:#33422F; opacity:.06; position:absolute; top:-2.2rem; left:-.3rem; user-select:none; }
+  @media(min-width:768px){ .ghost-num{ font-size:11rem; top:-3.2rem; } }
+  .nav-link{ position:relative; }
+  .nav-link::after{ content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:#A9764F;transition:width .3s; }
+  .nav-link.active::after{ width:100%; }
+  .nav-link.active{ color:#212B1E; }
+  @keyframes floaty{ 0%,100%{ transform:translate(0,0) rotate(0);} 50%{ transform:translate(0,-14px) rotate(2deg);} }
+  .float-slow{ animation:floaty 7s ease-in-out infinite; }
+  @keyframes pulse-ring{ 0%{ box-shadow:0 0 0 0 rgba(33,43,30,.45);} 100%{ box-shadow:0 0 0 18px rgba(33,43,30,0);} }
+  .pulse{ animation:pulse-ring 2.4s ease-out infinite; }
+  .tilt{ transition:transform .25s ease; will-change:transform; }
+  .diag-top{ clip-path:polygon(0 6%,100% 0,100% 100%,0 100%); }
+  .diag-bottom{ clip-path:polygon(0 0,100% 0,100% 94%,0 100%); }
+  .faq-panel{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
+  .faq-item.open .faq-panel{ max-height:200px; }
+  .faq-item.open .faq-chevron{ transform:rotate(180deg); }
+  .faq-chevron{ transition:transform .3s ease; }
+  .tab-btn{ color:rgba(42,42,36,.65); }
+  .tab-btn.active{ background:#212B1E; color:#F5F1E7; }
+  #tabContent{ transition:opacity .25s ease, transform .25s ease; }
+  #tabContent.fade{ opacity:0; transform:translateY(8px); }
+  .track{ transition:transform .6s ease; }
+</style>
+</head>
+<body class="font-sans">
+
+<div id="progress" class="fixed top-0 left-0 h-[3px] bg-clay z-[60]" style="width:0%"></div>
+
+<header class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur border-b border-moss/10" style="padding-top:env(safe-area-inset-top,0px);">
+  <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+    <a href="#inicio" class="flex items-center gap-2 font-serif font-bold text-2xl text-moss-dark"><span class="icon w-6 h-6 text-clay" data-icon="leaf"></span>Raiz</a>
+    <nav class="hidden md:flex items-center gap-9 text-sm text-ink/70">
+      <a href="#inicio" data-nav class="nav-link">Início</a>
+      <a href="#profissionais" data-nav class="nav-link">Profissionais</a>
+      <a href="#abordagem" data-nav class="nav-link">Abordagem</a>
+      <a href="#depoimentos" data-nav class="nav-link">Depoimentos</a>
+      <a href="#contato" data-nav class="nav-link">Contato</a>
+    </nav>
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20sess%C3%A3o" class="hidden md:inline-block bg-moss-dark text-cream text-sm px-5 py-2.5 rounded-full hover:bg-moss hover:scale-105 transition-all">Agende sua Sessão</a>
+    <button id="menuBtn" aria-label="Abrir menu" aria-expanded="false" class="md:hidden text-moss-dark">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-cream border-t border-moss/10 px-6 py-6 flex flex-col gap-5 text-ink/85">
+    <a href="#inicio">Início</a><a href="#profissionais">Profissionais</a><a href="#abordagem">Abordagem</a><a href="#depoimentos">Depoimentos</a><a href="#contato">Contato</a>
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20sess%C3%A3o" class="bg-moss-dark text-cream text-center px-5 py-3 rounded-full">Agende sua Sessão</a>
+  </div>
+</header>
+
+<!-- HERO — full bleed dark -->
+<section id="inicio" class="relative bg-moss-dark text-cream pt-40 pb-32 md:pt-52 md:pb-40 diag-bottom overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 relative grid md:grid-cols-[1.1fr_.9fr] gap-16 items-center">
+    <div>
+      <span class="inline-flex items-center gap-2 bg-cream/10 text-cream text-sm px-4 py-1.5 rounded-full mb-7"><span class="icon w-4 h-4" data-icon="leaf"></span>Psicoterapia  online</span>
+      <h1 class="font-serif font-bold text-5xl md:text-7xl leading-[1.02]">Cuidar da sua <span class="text-clay">saúde emocional</span>, de verdade.</h1>
+      <p class="mt-7 text-lg md:text-xl text-cream/75 leading-relaxed max-w-lg">Ética, acolhimento e escuta — no seu tempo, no formato que fizer mais sentido pra você.</p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20sess%C3%A3o" class="bg-clay text-cream text-lg px-8 py-4 rounded-full hover:brightness-110 hover:scale-105 transition-all shadow-lg shadow-black/20">Agendar minha sessão</a>
+        <a href="#abordagem" class="border border-cream/30 px-8 py-4 rounded-full hover:bg-cream/10 transition-colors">Como funciona</a>
+      </div>
+    </div>
+    <div id="heroArt" class="relative h-72 md:h-[380px]">
+      <svg viewBox="0 0 300 300" class="absolute inset-0 w-full h-full float-slow">
+        <rect x="10" y="10" width="280" height="280" rx="28" fill="#A9764F" fill-opacity="0.9"/>
+        <circle cx="150" cy="118" r="52" fill="#F5F1E7" fill-opacity="0.92"/>
+        <path d="M60 250c14-58 48-84 90-84s76 26 90 84z" fill="#F5F1E7" fill-opacity="0.92"/>
+        <circle cx="230" cy="60" r="16" fill="#212B1E" fill-opacity="0.25"/>
+        <circle cx="55" cy="70" r="9" fill="#212B1E" fill-opacity="0.2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ESSÊNCIA -->
+<section class="pt-8 pb-24 fade-up">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="relative mb-16 max-w-2xl">
+      <span class="ghost-num">01</span>
+      <h2 class="relative font-serif font-bold text-4xl md:text-5xl text-moss-dark">Nossa essência</h2>
+      <p class="relative mt-5 text-ink/75 leading-relaxed">Ética e acolhimento estão presentes em cada conversa — sem formalidade demais, com a seriedade que sua saúde mental merece.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="tilt relative bg-moss-dark text-cream rounded-3xl p-10 overflow-hidden min-h-[340px] flex flex-col justify-end">
+        <svg viewBox="0 0 300 300" class="absolute -right-10 -top-10 w-60 h-60 opacity-90">
+          <circle cx="150" cy="150" r="130" fill="#A9764F" fill-opacity="0.18"/>
+          <circle cx="190" cy="110" r="70" fill="#F5F1E7" fill-opacity="0.08"/>
+        </svg>
+        <span class="icon w-10 h-10 text-clay mb-6 block relative z-10" data-icon="leaf"></span>
+        <h3 class="relative z-10 font-serif font-bold text-2xl md:text-3xl mb-3 max-w-xs">Uma filosofia de cuidado, não só um consultório</h3>
+        <p class="relative z-10 text-cream/75 text-sm leading-relaxed max-w-xs">Todo processo terapêutico começa por um vínculo de confiança — por isso ética e acolhimento sustentam cada atendimento.</p>
+      </div>
+      <div class="grid gap-6">
+        <div class="tilt bg-white rounded-2xl p-6 flex items-start gap-5">
+          <span class="w-12 h-12 rounded-full bg-clay/10 text-clay flex items-center justify-center shrink-0"><span class="icon w-6 h-6" data-icon="shield"></span></span>
+          <div><h3 class="font-serif font-bold text-xl text-moss-dark mb-1">Ética</h3><p class="text-ink/70 text-sm leading-relaxed">Sigilo e responsabilidade seguindo à risca o Código de Ética Profissional.</p></div>
+        </div>
+        <div class="tilt bg-white rounded-2xl p-6 flex items-start gap-5">
+          <span class="w-12 h-12 rounded-full bg-moss-dark/10 text-moss-dark flex items-center justify-center shrink-0"><span class="icon w-6 h-6" data-icon="heart"></span></span>
+          <div><h3 class="font-serif font-bold text-xl text-moss-dark mb-1">Acolhimento</h3><p class="text-ink/70 text-sm leading-relaxed">Um espaço sem julgamentos, onde você se abre no seu próprio ritmo.</p></div>
+        </div>
+        <div class="tilt bg-white rounded-2xl p-6 flex items-start gap-5">
+          <span class="w-12 h-12 rounded-full bg-clay/10 text-clay flex items-center justify-center shrink-0"><span class="icon w-6 h-6" data-icon="leaf"></span></span>
+          <div><h3 class="font-serif font-bold text-xl text-moss-dark mb-1">Saúde mental</h3><p class="text-ink/70 text-sm leading-relaxed">Psicoterapia com embasamento técnico, pro seu equilíbrio no dia a dia.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESPIRAÇÃO -->
+<section class="py-20 bg-white fade-up text-center">
+  <div class="max-w-md mx-auto px-6">
+    <h2 class="font-serif font-bold text-3xl text-moss-dark mb-3">Antes de continuar, respire com a gente</h2>
+    <p class="text-ink/70 text-sm mb-10">Um minuto de pausa já ajuda a acalmar a mente.</p>
+    <div class="relative w-40 h-40 mx-auto flex items-center justify-center">
+      <div id="breathCircle" class="absolute inset-0 rounded-full bg-clay/20"></div>
+      <span id="breathText" class="relative font-serif font-bold text-moss-dark text-lg">Inspire</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROFISSIONAIS -->
+<section id="profissionais" class="relative py-24 md:py-28 bg-moss-dark text-cream diag-top -mt-1">
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <span class="ghost-num" style="color:#F5F1E7">02</span>
+    <h2 class="relative font-serif font-bold text-4xl md:text-5xl mb-14">Quem cuida de você</h2>
+    <div class="grid md:grid-cols-2 gap-14">
+      <div class="tilt">
+        <svg viewBox="0 0 120 120" class="w-24 h-24 mb-5 rounded-2xl"><rect width="120" height="120" rx="20" fill="#A9764F"/><circle cx="60" cy="48" r="20" fill="#F5F1E7"/><path d="M20 108c6-24 20-36 40-36s34 12 40 36z" fill="#F5F1E7"/></svg>
+        <h3 class="font-serif font-bold text-2xl mb-1">Gabriel Magela</h3>
+        <p class="text-cream/60 text-sm mb-4">Psicólogo · @gabrielmagela_</p>
+        <p class="text-cream/80 leading-relaxed text-sm">Gabriel enxerga a terapia como uma parceria: ele te ajuda a entender seus padrões emocionais e a descobrir novos jeitos de lidar consigo mesmo.</p>
+      </div>
+      <div class="tilt">
+        <svg viewBox="0 0 120 120" class="w-24 h-24 mb-5 rounded-2xl"><rect width="120" height="120" rx="20" fill="#5C6E52"/><circle cx="60" cy="48" r="20" fill="#F5F1E7"/><path d="M20 108c6-24 20-36 40-36s34 12 40 36z" fill="#F5F1E7"/></svg>
+        <h3 class="font-serif font-bold text-2xl mb-1">Álvaro Locatelli</h3>
+        <p class="text-cream/60 text-sm mb-4">Psicólogo · @psi.alvarolocatelli</p>
+        <p class="text-cream/80 leading-relaxed text-sm">Álvaro trabalha com escuta ativa e técnicas bem fundamentadas, respeitando o ritmo e a história de cada pessoa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="abordagem" class="py-24 fade-up">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="relative mb-12 max-w-2xl">
+      <span class="ghost-num">03</span>
+      <h2 class="relative font-serif font-bold text-4xl md:text-5xl text-moss-dark">Como funciona a terapia</h2>
+      <p class="relative mt-4 text-ink/70">Escolha o formato pra ver como funciona.</p>
+    </div>
+    <div class="grid md:grid-cols-[260px_1fr] gap-6 items-stretch">
+      <div class="bg-white rounded-2xl p-2 flex md:flex-col gap-2">
+        <button type="button" data-tab="0" class="tab-btn active flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-medium transition-colors w-full text-left">
+          <span class="icon w-5 h-5 shrink-0" data-icon="video"></span>Online
+        </button>
+        <button type="button" data-tab="1" class="tab-btn flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-medium transition-colors w-full text-left">
+          <span class="icon w-5 h-5 shrink-0" data-icon="pin"></span>Presencial
+        </button>
+        <button type="button" data-tab="2" class="tab-btn flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-medium transition-colors w-full text-left">
+          <span class="icon w-5 h-5 shrink-0" data-icon="calendar"></span>Regularidade
+        </button>
+      </div>
+      <div class="relative bg-moss-dark text-cream rounded-2xl p-8 md:p-10 overflow-hidden min-h-[220px] flex items-center">
+        <svg viewBox="0 0 300 300" class="absolute -right-14 -bottom-14 w-56 h-56 opacity-90">
+          <circle cx="150" cy="150" r="130" fill="#A9764F" fill-opacity="0.14"/>
+        </svg>
+        <div id="tabContent" class="relative z-10">
+          <span class="icon w-10 h-10 text-clay mb-5 block" id="tabIcon" data-icon="video"></span>
+          <h3 class="font-serif font-bold text-2xl mb-3" id="tabTitle">Online</h3>
+          <p class="text-cream/80 leading-relaxed max-w-md" id="tabText">De onde você estiver, por videochamada, com total privacidade e a mesma qualidade de escuta do atendimento presencial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLEXÕES -->
+<section class="bg-white py-24 fade-up">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="relative mb-14 max-w-2xl"><span class="ghost-num">04</span><h2 class="relative font-serif font-bold text-4xl md:text-5xl text-moss-dark">Reflexões sobre saúde mental</h2></div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <div class="tilt"><span class="icon w-7 h-7 text-moss-dark mb-3 block" data-icon="leaf"></span><h3 class="font-serif font-bold text-lg text-moss-dark mb-2">Autoconhecimento</h3><p class="text-ink/70 text-sm leading-relaxed">Entender o que você sente é o primeiro passo pra lidar melhor com isso.</p></div>
+      <div class="tilt"><span class="icon w-7 h-7 text-moss-dark mb-3 block" data-icon="heart"></span><h3 class="font-serif font-bold text-lg text-moss-dark mb-2">Inteligência emocional</h3><p class="text-ink/70 text-sm leading-relaxed">Dar nome ao que você sente já ajuda (e muito) nas suas relações.</p></div>
+      <div class="tilt"><span class="icon w-7 h-7 text-moss-dark mb-3 block" data-icon="clock"></span><h3 class="font-serif font-bold text-lg text-moss-dark mb-2">Ansiedade e rotina</h3><p class="text-ink/70 text-sm leading-relaxed">Pausas curtas ao longo do dia fazem mais diferença do que parece.</p></div>
+    </div>
+    <a href="https://instagram.com/clinica.raiz" class="inline-block mt-12 text-moss-dark border-b border-moss-dark/40 hover:border-moss-dark transition-colors text-sm">Acompanhe mais reflexões no Instagram @clinica.raiz</a>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos" class="py-24 fade-up overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="relative mb-14 max-w-2xl"><span class="ghost-num">05</span><h2 class="relative font-serif font-bold text-4xl md:text-5xl text-moss-dark">Depoimentos</h2></div>
+    <div class="relative">
+      <div class="overflow-hidden"><div id="track" class="track flex">
+        <blockquote class="w-full shrink-0 px-2"><div class="bg-white rounded-2xl shadow-sm p-8 border-l-4 border-clay max-w-2xl mx-auto"><span class="icon w-8 h-8 text-clay/40 mb-3 block" data-icon="quote"></span><p class="text-ink/75 italic leading-relaxed text-lg">"Encontrei um espaço onde me sinto ouvida de verdade, sem pressa e sem julgamento."</p><footer class="mt-4 text-sm text-ink/50">Paciente da Clínica Raiz</footer></div></blockquote>
+        <blockquote class="w-full shrink-0 px-2"><div class="bg-white rounded-2xl shadow-sm p-8 border-l-4 border-clay max-w-2xl mx-auto"><span class="icon w-8 h-8 text-clay/40 mb-3 block" data-icon="quote"></span><p class="text-ink/75 italic leading-relaxed text-lg">"O acompanhamento me ajudou a entender padrões que eu carregava há anos."</p><footer class="mt-4 text-sm text-ink/50">Paciente da Clínica Raiz</footer></div></blockquote>
+        <blockquote class="w-full shrink-0 px-2"><div class="bg-white rounded-2xl shadow-sm p-8 border-l-4 border-clay max-w-2xl mx-auto"><span class="icon w-8 h-8 text-clay/40 mb-3 block" data-icon="quote"></span><p class="text-ink/75 italic leading-relaxed text-lg">"Fui bem recebida desde a primeira sessão, sem pressa pra falar do que eu não estava pronta."</p><footer class="mt-4 text-sm text-ink/50">Paciente da Clínica Raiz</footer></div></blockquote>
+      </div></div>
+      <button id="prevBtn" aria-label="Anterior" class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow items-center justify-center text-moss-dark hover:bg-moss-dark hover:text-cream transition-colors"><span class="icon w-5 h-5" data-icon="chevleft"></span></button>
+      <button id="nextBtn" aria-label="Próximo" class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow items-center justify-center text-moss-dark hover:bg-moss-dark hover:text-cream transition-colors"><span class="icon w-5 h-5" data-icon="chevright"></span></button>
+      <div id="dots" class="flex justify-center gap-2 mt-8"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-24 bg-white fade-up">
+  <div class="max-w-3xl mx-auto px-6">
+    <h2 class="font-serif font-bold text-4xl md:text-5xl text-moss-dark mb-10">Perguntas frequentes</h2>
+    <div class="space-y-3" id="faqList">
+      <div class="faq-item border border-moss-dark/10 rounded-xl px-6 py-4"><button class="faq-btn w-full flex items-center justify-between text-left"><span class="font-medium text-moss-dark">Quanto tempo dura uma sessão?</span><span class="icon w-5 h-5 text-clay faq-chevron" data-icon="chevdown"></span></button><div class="faq-panel"><p class="text-ink/70 text-sm leading-relaxed pt-3">Normalmente entre 50 e 60 minutos, com frequência semanal ou quinzenal.</p></div></div>
+      <div class="faq-item border border-moss-dark/10 rounded-xl px-6 py-4"><button class="faq-btn w-full flex items-center justify-between text-left"><span class="font-medium text-moss-dark">O atendimento é sigiloso?</span><span class="icon w-5 h-5 text-clay faq-chevron" data-icon="chevdown"></span></button><div class="faq-panel"><p class="text-ink/70 text-sm leading-relaxed pt-3">Sim. Sigilo profissional é um dos pilares da nossa atuação, seguindo o Código de Ética da Psicologia.</p></div></div>
+      <div class="faq-item border border-moss-dark/10 rounded-xl px-6 py-4"><button class="faq-btn w-full flex items-center justify-between text-left"><span class="font-medium text-moss-dark">Preciso de indicação médica?</span><span class="icon w-5 h-5 text-clay faq-chevron" data-icon="chevdown"></span></button><div class="faq-panel"><p class="text-ink/70 text-sm leading-relaxed pt-3">Não é necessário. Qualquer pessoa pode buscar psicoterapia, com ou sem encaminhamento médico.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" class="py-24 fade-up">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
+    <div>
+      <div class="relative mb-6"><span class="ghost-num" style="font-size:6rem;top:-1.6rem">06</span><h2 class="relative font-serif font-bold text-4xl md:text-5xl text-moss-dark">Vamos conversar</h2></div>
+      <p class="text-ink/75 leading-relaxed mb-8">Dá o primeiro passo pro seu bem-estar emocional. Chama a gente e agenda sua primeira sessão.</p>
+      <div class="space-y-4 text-sm text-ink/75">
+        <div class="flex items-center gap-3"><span class="icon w-5 h-5 text-clay" data-icon="clock"></span>Segunda a sexta, 8h às 20h</div>
+        <div class="flex items-center gap-3"><span class="icon w-5 h-5 text-clay" data-icon="message"></span>@clinica.raiz no Instagram</div>
+      </div>
+    </div>
+    <div class="tilt bg-moss-dark text-cream rounded-2xl p-10">
+      <span class="icon w-9 h-9 text-clay mb-4 block" data-icon="calendar"></span>
+      <p class="font-serif font-bold text-xl mb-4">Pronto para começar?</p>
+      <p class="text-cream/75 text-sm mb-7 leading-relaxed">É rapidinho: agenda sua sessão direto pelo WhatsApp e já te passamos as orientações iniciais.</p>
+      <a href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20sess%C3%A3o" class="block text-center bg-clay text-cream px-7 py-3.5 rounded-full hover:brightness-110 hover:scale-105 transition-all">Agendar pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-moss/10 py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <span class="flex items-center gap-2 font-serif font-bold text-xl text-moss-dark"><span class="icon w-5 h-5 text-clay" data-icon="leaf"></span>Raiz</span>
+    <div class="flex gap-6 text-sm text-ink/70"><a href="https://instagram.com/clinica.raiz" class="hover:text-moss-dark transition-colors">Instagram</a><a href="#contato" class="hover:text-moss-dark transition-colors">Contato</a></div>
+    <p class="text-xs text-ink/45">© 2026 Clínica Raiz. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20sess%C3%A3o" aria-label="Agendar pelo WhatsApp" class="pulse fixed bottom-6 right-6 z-50 bg-clay text-cream w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:brightness-110 transition-all" style="margin-bottom:env(safe-area-inset-bottom,0px);">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.24-.45.06-.99.09-1.6-.1-.37-.12-.84-.27-1.45-.53-2.55-1.1-4.2-3.66-4.33-3.84-.13-.18-1.03-1.37-1.03-2.62 0-1.25.66-1.86.9-2.12.24-.26.52-.32.7-.32h.5c.16 0 .38-.06.59.45.22.53.75 1.83.82 1.96.07.13.11.29.02.47-.09.18-.13.29-.26.45-.13.16-.28.35-.4.47-.13.13-.27.28-.12.55.16.27.7 1.16 1.51 1.88 1.04.93 1.92 1.22 2.19 1.35.27.13.42.11.58-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.6-.13.24.09 1.52.72 1.78.85.26.13.43.2.5.31.06.11.06.63-.16 1.24z"/></svg>
+</a>
+<button id="topBtn" aria-label="Voltar ao topo" class="fixed bottom-6 left-6 z-50 w-11 h-11 rounded-full bg-white shadow-lg flex items-center justify-center text-moss-dark opacity-0 pointer-events-none transition-opacity" style="margin-bottom:env(safe-area-inset-bottom,0px);"><span class="icon w-5 h-5" data-icon="chevup"></span></button>
+
+<script>
+  const ICONS = {
+    leaf:'<path d="M5 21c0-8 6-14 14-14 0 8-6 14-14 14z"/><path d="M5 21c3-3 5-6 6-10"/>',
+    shield:'<path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/>',
+    heart:'<path d="M12 20s-7-4.35-9.5-8.5C1 8 2.5 4.5 6 4.5c2 0 3.5 1.2 4 2.5.5-1.3 2-2.5 4-2.5 3.5 0 5 3.5 3.5 7C19 15.65 12 20 12 20z"/>',
+    video:'<rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/>',
+    pin:'<path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8.5 14.5l2 2 4-4"/>',
+    message:'<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-.9L3 21l1.9-5.5a8.38 8.38 0 0 1-.9-4A8.38 8.38 0 0 1 12.5 3a8.5 8.5 0 0 1 8.5 8.5z"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+    quote:'<path d="M9 7c-3 0-5 2.2-5 5.2 0 2.6 1.8 4.4 4 4.4.4 3-1.6 4.9-4 5.4v1.6c4.2-.5 7-3.4 7-7.8V7H9zm11 0c-3 0-5 2.2-5 5.2 0 2.6 1.8 4.4 4 4.4.4 3-1.6 4.9-4 5.4v1.6c4.2-.5 7-3.4 7-7.8V7h-2z"/>',
+    chevleft:'<path d="M15 6l-6 6 6 6"/>', chevright:'<path d="M9 6l6 6-6 6"/>',
+    chevdown:'<path d="M6 9l6 6 6-6"/>', chevup:'<path d="M18 15l-6-6-6 6"/>'
+  };
+  document.querySelectorAll('[data-icon]').forEach(el=>{ el.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[el.dataset.icon]||'')+'</svg>'; });
+
+  const menuBtn=document.getElementById('menuBtn'), mobileMenu=document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click',()=>{ const open=mobileMenu.classList.toggle('hidden')===false; menuBtn.setAttribute('aria-expanded',open); });
+  document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.add('hidden')));
+
+  const progress=document.getElementById('progress'), topBtn=document.getElementById('topBtn');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement; progress.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+    if(h.scrollTop>500){ topBtn.style.opacity='1'; topBtn.style.pointerEvents='auto'; } else { topBtn.style.opacity='0'; topBtn.style.pointerEvents='none'; }
+  });
+  topBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  const navLinks=[...document.querySelectorAll('[data-nav]')];
+  const sections=navLinks.map(l=>document.querySelector(l.getAttribute('href')));
+  const navObs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ const id='#'+e.target.id; navLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href')===id)); } }); },{ rootMargin:'-40% 0px -55% 0px' });
+  sections.forEach(s=>s && navObs.observe(s));
+
+  const io=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); }); },{threshold:.15});
+  document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+  const heroArt=document.getElementById('heroArt');
+  if(heroArt){ heroArt.style.transition='transform .2s ease-out';
+    document.getElementById('inicio').addEventListener('mousemove', e=>{ const x=(e.clientX-window.innerWidth/2)/45, y=(e.clientY-window.innerHeight/2)/45; heroArt.style.transform=`translate(${x}px, ${y}px)`; }); }
+
+  const breathCircle=document.getElementById('breathCircle'), breathText=document.getElementById('breathText');
+  let breathIn=true;
+  function breathe(){ breathCircle.style.transition='transform 4s ease-in-out'; breathCircle.style.transform= breathIn?'scale(1.45)':'scale(1)'; breathText.textContent= breathIn?'Expire':'Inspire'; breathIn=!breathIn; }
+  if(breathCircle){ breathe(); setInterval(breathe,4000); }
+
+  document.querySelectorAll('.tilt').forEach(card=>{
+    card.addEventListener('mousemove',e=>{ const r=card.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5; card.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-2px)`; });
+    card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(600px) rotateY(0) rotateX(0)'; });
+  });
+
+  const tabData=[
+    {icon:'video',title:'Online',text:'De onde você estiver, por videochamada, com total privacidade e a mesma qualidade de escuta do atendimento presencial.'},
+    {icon:'pin',title:'Presencial',text:'Num ambiente pensado pra te deixar à vontade, em Recife, com todo o cuidado de sempre.'},
+    {icon:'calendar',title:'Regularidade',text:'Sessões semanais ou quinzenais — a consistência é o que faz o processo terapêutico avançar de verdade.'}
+  ];
+  const tabBtns=[...document.querySelectorAll('.tab-btn')];
+  const tabContent=document.getElementById('tabContent');
+  tabBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    if(btn.classList.contains('active')) return;
+    tabBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    tabContent.classList.add('fade');
+    setTimeout(()=>{
+      const d=tabData[btn.dataset.tab];
+      document.getElementById('tabTitle').textContent=d.title;
+      document.getElementById('tabText').textContent=d.text;
+      document.getElementById('tabIcon').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+ICONS[d.icon]+'</svg>';
+      tabContent.classList.remove('fade');
+    },220);
+  }));
+
+  const track=document.getElementById('track'), slides=track.children.length, dotsWrap=document.getElementById('dots');
+  let idx=0;
+  for(let i=0;i<slides;i++){ const d=document.createElement('button'); d.className='w-2.5 h-2.5 rounded-full bg-moss-dark/20'; d.addEventListener('click',()=>go(i)); dotsWrap.appendChild(d); }
+  function go(i){ idx=(i+slides)%slides; track.style.transform=`translateX(-${idx*100}%)`; [...dotsWrap.children].forEach((d,j)=>d.className='w-2.5 h-2.5 rounded-full '+(j===idx?'bg-moss-dark':'bg-moss-dark/20')); }
+  document.getElementById('prevBtn').addEventListener('click',()=>go(idx-1));
+  document.getElementById('nextBtn').addEventListener('click',()=>go(idx+1));
+  setInterval(()=>go(idx+1),6000); go(0);
+
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.querySelector('.faq-btn').addEventListener('click',()=>{ const wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!wasOpen) item.classList.add('open'); });
+  });
+</script>
+</body>
+</html>
